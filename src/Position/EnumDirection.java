@@ -1,58 +1,83 @@
 package Position;
 
+
 public enum EnumDirection {
-    DirectionEast("E"),
-    DirectionWest("W"),
-    DirectionSouth("S"),
-    DirectionNorth("N");
+    DirectionEast("E") {
+        @Override
+        public EnumDirection getLeftDirection() {
+            return EnumDirection.DirectionNorth;
+        }
+
+        @Override
+        public EnumDirection getRightDirection() {
+            return EnumDirection.DirectionSouth;
+        }
+
+        @Override
+        public Coordination getMove() {
+            return new Coordination(1, 0);
+        }
+    },
+    DirectionWest("W") {
+        @Override
+        public EnumDirection getLeftDirection() {
+            return EnumDirection.DirectionSouth;
+        }
+
+        @Override
+        public EnumDirection getRightDirection() {
+            return EnumDirection.DirectionNorth;
+        }
+
+        @Override
+        public Coordination getMove() {
+            return new Coordination(-1, 0);
+        }
+    },
+    DirectionSouth("S") {
+        @Override
+        public EnumDirection getLeftDirection() {
+            return EnumDirection.DirectionEast;
+        }
+
+        @Override
+        public EnumDirection getRightDirection() {
+            return EnumDirection.DirectionWest;
+        }
+
+        @Override
+        public Coordination getMove() {
+            return new Coordination(0, -1);
+        }
+    },
+    DirectionNorth("N") {
+        @Override
+        public EnumDirection getLeftDirection() {
+            return EnumDirection.DirectionWest;
+        }
+
+        @Override
+        public EnumDirection getRightDirection() {
+            return EnumDirection.DirectionEast;
+        }
+
+        @Override
+        public Coordination getMove() {
+            return new Coordination(0, 1);
+        }
+    };
 
     private String value;
 
-    EnumDirection(String dir) {
+    private EnumDirection(String dir) {
         this.value = dir;
     }
 
     public String getValue() {
         return value;
     }
+    public abstract EnumDirection getLeftDirection();
+    public abstract EnumDirection getRightDirection();
 
-    public EnumDirection getLeftDirection() {
-        switch (this) {
-            case DirectionNorth:
-                return DirectionWest;
-            case DirectionWest:
-                return DirectionSouth;
-            case DirectionSouth:
-                return DirectionEast;
-            default:
-                return DirectionNorth;
-        }
-    }
-
-
-    public EnumDirection getRightDirection() {
-        switch (this) {
-            case DirectionNorth:
-                return DirectionEast;
-            case DirectionWest:
-                return DirectionNorth;
-            case DirectionSouth:
-                return DirectionWest;
-            default:
-                return DirectionSouth;
-        }
-    }
-
-    public Coordination getMove() {
-        switch (this) {
-            case DirectionNorth:
-                return new Coordination(0, 1);
-            case DirectionWest:
-                return new Coordination(-1, 0);
-            case DirectionSouth:
-                return new Coordination(0, -1);
-            default:
-                return new Coordination(1, 0);
-        }
-    }
+    public abstract Coordination getMove();
 }
